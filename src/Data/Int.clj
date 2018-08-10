@@ -4,15 +4,13 @@
 (defn fromNumberImpl [just]
   (fn [nothing]
     (fn [n]
-      (try
-        (if (= n (int n))
-          (just n)
-          nothing)
-        (catch Exception _
-          nothing)))))
+        (if (and (<= n Long/MAX_VALUE)
+                 (= n (double (long n))))
+          (just (long n))
+          nothing))))
 
 (defn toNumber [x]
-  x)
+  (double x))
 
 (defn fromStringAsImpl [just]
   (fn [nothing]
